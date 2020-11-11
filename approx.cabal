@@ -4,11 +4,13 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 78ca5c4812aaf447aa8601275f17f46e2708a19ca7ee24d243b8a03bdb4ed214
+-- hash: 294358b447562aa723d0da9d64cd7c0f5f9dac7fa31b68024afbc5e844a29e1f
 
 name:           approx
 version:        0.1.0.0
+synopsis:       The library is created to allow for a easy-to-use reasonable way of emulating approx in Haskell.
 description:    Please see the README on GitHub at <https://github.com/n-kishaloy/approx#readme>
+category:       Numeric
 homepage:       https://github.com/n-kishaloy/approx#readme
 bug-reports:    https://github.com/n-kishaloy/approx/issues
 author:         Kishaloy Neogi
