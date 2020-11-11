@@ -1,10 +1,14 @@
-name:                approx
-version:             0.1.0.0
-github:              "githubuser/approx"
-license:             BSD3
-author:              "Author name here"
-maintainer:          "example@example.com"
-copyright:           "2020 Author name here"
+name:           approx
+version:        0.1.0.0
+description:    Please see the README on GitHub at <https://github.com/n-kishaloy/approx#readme>
+homepage:       https://github.com/n-kishaloy/approx#readme
+bug-reports:    https://github.com/n-kishaloy/approx/issues
+author:         Kishaloy Neogi
+maintainer:     nkishaloy@yahoo.com
+copyright:      2020 Kishaloy Neogi
+license:        MIT
+license-file:   LICENSE
+build-type:     Simple
 
 extra-source-files:
 - README.md
@@ -17,16 +21,23 @@ extra-source-files:
 # To avoid duplicated efforts in documentation and dealing with the
 # complications of embedding Haddock markup inside cabal files, it is
 # common to point users to the README.md file.
-description:         Please see the README on GitHub at <https://github.com/githubuser/approx#readme>
+description:         Please see the README on GitHub at <https://github.com/n-kishaloy/approx#readme>
 
 dependencies:
-- base >= 4.7 && < 5
-- containers
-- time
-- vector
-- hashable
-- unordered-containers
-- text
+  - base                      >=4.7 && <5
+  - containers                <= 0.6.4.1
+  - hashable                  <= 1.3.0.0
+  - text                      <= 1.2.4.0
+  - time                      <= 1.11
+  - unordered-containers      <= 0.2.13.0
+  - vector                    <= 0.12.1.2
+# - base >= 4.7 && < 5
+# - containers
+# - time
+# - vector
+# - hashable
+# - unordered-containers
+# - text
 
 library:
   source-dirs: src
@@ -47,6 +58,7 @@ tests:
     main:                Spec.hs
     source-dirs:         test
     ghc-options:
+    - -Wall
     - -threaded
     - -rtsopts
     - -with-rtsopts=-N

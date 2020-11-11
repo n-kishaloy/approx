@@ -55,7 +55,6 @@ You may see the github repository at <https://github.com/n-kishaloy/approx>
 
 -}
 
-
 {-# LANGUAGE Strict #-}
 
 module Data.Approx
@@ -69,7 +68,6 @@ module Data.Approx
 ) where
 
 import Data.List (foldl')
--- import Data.Vector.Unboxed ((!),(//))
 import qualified Data.Vector.Unboxed as U
 import qualified Data.Vector.Unboxed.Mutable as M
 import qualified Data.Vector as V
