@@ -78,15 +78,14 @@ main = do
   quickCheck $ ("star"::String) /~ ("start"::String)
   quickCheck $ ("start"::String) /~ ("star"::String)
 
-  quickCheck $ fromGregorian 2018 3 30 =~ fromGregorian 2018 3 30
+  quickCheck $ fromGregorian 2018 3 30 =~ fromGregorian 2018 3 30 
   quickCheck $ fromGregorian 2018 3 31 /~ fromGregorian 2018 3 30
 
   quickCheck $ (parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:02:15" :: Maybe UTCTime) /~ parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 14:02:15"
 
   quickCheck $ (parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:02:15" :: Maybe UTCTime) =~ parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:01:50"
 
-  quickCheck $ (parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:02:15" :: Maybe UTCTime) =~ parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:01:50"
-
+  quickCheck $ (parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:01:50" :: Maybe UTCTime) =~ parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:02:15"
   quickCheck $ (parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-16 15:02:15" :: Maybe UTCTime) /~ parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:02:15"
 
   quickCheck $ (parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2019-01-15 15:02:15" :: Maybe UTCTime) /~ parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:02:15"
