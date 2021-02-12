@@ -126,13 +126,13 @@ instance Approx a => Approx (Cx.Complex a) where
   (a :+ b) =~ (x :+ y) = (a =~ x) && (b =~ y); {-# INLINE (=~) #-}
 
 instance Approx Float where
-  x =~ y = if (mx < epsZeroFloat) || (abs (x-y)) / mx < epsEqFloat then True else False 
-    where mx = (max (abs x) (abs y))
+  x =~ y = (mx < epsZeroFloat) || abs (x-y) / mx < epsEqFloat 
+    where mx = max (abs x) (abs y)
   {-# INLINE (=~) #-}
 
 instance Approx Double where
-  x =~ y = if (mx < epsZeroDouble) || (abs (x-y)) / mx < epsEqDouble then True else False 
-    where mx = (max (abs x) (abs y))
+  x =~ y = (mx < epsZeroDouble) || abs (x-y) / mx < epsEqDouble 
+    where mx = max (abs x) (abs y)
   {-# INLINE (=~) #-}
 
 instance Approx a => Approx (Maybe a) where
@@ -142,7 +142,7 @@ instance Approx a => Approx (Maybe a) where
   {-# INLINE (=~) #-}
 
 instance Approx a => Approx [a] where 
-  x =~ y = (length x == length y) && (foldr (&&) True $ zipWith (=~) x y)
+  x =~ y = (length x == length y) && and (zipWith (=~) x y)
 
 instance (Approx a, Approx b) => Approx (a, b) where
   (x,y) =~ (a,b) = 
@@ -260,12 +260,12 @@ instance (Approx a,Approx b,Approx c,Approx d, Approx e, Approx f, Approx g, App
   {-# INLINE (=~) #-}
 
 instance (M.Unbox a, Approx a) => Approx (U.Vector a) where 
-  x =~ y = (U.length x==U.length y) && (U.foldr (&&) True $ U.zipWith (=~) x y)
+  x =~ y = (U.length x==U.length y) && U.foldr (&&) True (U.zipWith (=~) x y)
 
 instance (Approx a) => Approx (V.Vector a) where 
-  x =~ y = (V.length x==V.length y) && (V.foldr (&&) True $ V.zipWith (=~) x y)
+  x =~ y = (V.length x==V.length y) && V.foldr (&&) True (V.zipWith (=~) x y)
 
 instance (Eq a, Hashable a, Approx b) => Approx (Hm.HashMap a b) where
-  x =~ y = (fz x y) && (fz y x) where
+  x =~ y = fz x y && fz y x where
     fz p q = foldl' (f p) True $ Hm.toList q
-    f p t z = t && ((Hm.lookup k p) =~ (Just v)) where (k,v) = z 
+    f p t z = t && (Hm.lookup k p =~ Just v) where (k,v) = z 

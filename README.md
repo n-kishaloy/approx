@@ -15,7 +15,7 @@ The library already defines the functions for some of the basic / common types.
 
 For types where **Eq** is defined like **Char, Bool, Int, Day, Text** the approx is simply replaced with **==**. 
 
-For **Float** and **Double**, the following formula is used, 
+For **Float** and **Double**, the following formula is used,
 
 ```
 if max ( |x|, |y| ) < epsilon_Zero
