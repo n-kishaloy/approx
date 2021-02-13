@@ -103,6 +103,11 @@ main = do
   quickCheck $ rb =~ tb
   quickCheck $ tb =~ rb
 
+  let rb = Hm.fromList [("Cash", 10.21), ("CurrentAdvances", 56.25)] :: Hm.HashMap String Double
+
+  quickCheck $ rb /~ tb
+  quickCheck $ tb /~ rb
+
   let rb = Hm.fromList [("Cash", Just 10.23), ("CurrentAdvances", Just 56.25), ("AccountPayables", Just 0.0)] :: Hm.HashMap String (Maybe Double)
   let tb = Hm.fromList [("Cash", Just 10.23), ("CurrentAdvances", Just 56.25)] :: Hm.HashMap String (Maybe Double)
 

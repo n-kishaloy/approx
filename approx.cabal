@@ -4,7 +4,7 @@ cabal-version: 1.12
 --
 -- see: https://github.com/sol/hpack
 --
--- hash: 5f8821ab789d470c98e28ede7bad515737128b684607b551ae1fe4f3f422273b
+-- hash: 9b7ad2629f9b53a8f710a24c69023ee54eeda43f2af2bac2eab8ec82331b722d
 
 name:           approx
 version:        0.1.0.1
@@ -34,10 +34,10 @@ library
       base >=4.7 && <5
     , containers <=0.6.4.1
     , hashable <=1.3.0.0
-    , text <=1.2.4.0
-    , time <=1.11
+    , text <=1.2.4.1
+    , time <=1.11.1.1
     , unordered-containers <=0.2.13.0
-    , vector <=0.12.1.2
+    , vector <=0.12.2.0
   default-language: Haskell2010
 
 executable approx-exe
@@ -52,10 +52,10 @@ executable approx-exe
     , base >=4.7 && <5
     , containers <=0.6.4.1
     , hashable <=1.3.0.0
-    , text <=1.2.4.0
-    , time <=1.11
+    , text <=1.2.4.1
+    , time <=1.11.1.1
     , unordered-containers <=0.2.13.0
-    , vector <=0.12.1.2
+    , vector <=0.12.2.0
   default-language: Haskell2010
 
 test-suite approx-test
@@ -72,8 +72,8 @@ test-suite approx-test
     , base >=4.7 && <5
     , containers <=0.6.4.1
     , hashable <=1.3.0.0
-    , text <=1.2.4.0
-    , time <=1.11
+    , text <=1.2.4.1
+    , time <=1.11.1.1
     , unordered-containers <=0.2.13.0
-    , vector <=0.12.1.2
+    , vector <=0.12.2.0
   default-language: Haskell2010

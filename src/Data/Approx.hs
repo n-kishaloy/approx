@@ -51,6 +51,8 @@ The library also provides approx for Complex and common structures like __List, 
 
 For lists, only finite lists are supported. Any use of infinite lists would cause a runtime error.
 
+There are addtional functions __inRange__, __safeInRange__ and __inTol__, which checks for values within Ranges either /explictily/ defined as in __inRange__ and __safeInRange__ or through tolerances as in __inTol__.
+
 You may see the github repository at <https://github.com/n-kishaloy/approx>
 
 -}
@@ -64,6 +66,7 @@ module Data.Approx
 
 -- *Documentation
   Approx (..)
+, inRange, safeInRange, inTol
 
 ) where
 
@@ -80,17 +83,17 @@ import Data.Text (Text)
 import qualified Data.Complex as Cx
 import Data.Complex (Complex ( (:+) ) )
 
-epsZeroDouble :: Double
-epsZeroDouble = 1e-8;   {-# INLINE epsZeroDouble  #-}
+eZerD :: Double
+eZerD = 1e-8;   {-# INLINE eZerD  #-}
 
-epsEqDouble :: Double
-epsEqDouble   = 1e-7;   {-# INLINE epsEqDouble    #-}
+eEqD :: Double
+eEqD   = 1e-7;  {-# INLINE eEqD    #-}
 
-epsZeroFloat :: Float
-epsZeroFloat = 1e-6;    {-# INLINE epsZeroFloat   #-}
+eZerF :: Float
+eZerF = 1e-6;   {-# INLINE eZerF   #-}
 
-epsEqFloat :: Float
-epsEqFloat   = 1e-5;    {-# INLINE epsEqFloat     #-}
+eEqF :: Float
+eEqF   = 1e-5;  {-# INLINE eEqF     #-}
 
 infix 4 =~, /~
 
@@ -126,13 +129,11 @@ instance Approx a => Approx (Cx.Complex a) where
   (a :+ b) =~ (x :+ y) = (a =~ x) && (b =~ y); {-# INLINE (=~) #-}
 
 instance Approx Float where
-  x =~ y = (mx < epsZeroFloat) || abs (x-y) / mx < epsEqFloat 
-    where mx = max (abs x) (abs y)
+  x =~ y = (mx < eZerF) || abs (x-y) / mx < eEqF where mx = max (abs x) (abs y)
   {-# INLINE (=~) #-}
 
 instance Approx Double where
-  x =~ y = (mx < epsZeroDouble) || abs (x-y) / mx < epsEqDouble 
-    where mx = max (abs x) (abs y)
+  x =~ y = (mx < eZerD) || abs (x-y) / mx < eEqD where mx = max (abs x) (abs y)
   {-# INLINE (=~) #-}
 
 instance Approx a => Approx (Maybe a) where
@@ -260,12 +261,34 @@ instance (Approx a,Approx b,Approx c,Approx d, Approx e, Approx f, Approx g, App
   {-# INLINE (=~) #-}
 
 instance (M.Unbox a, Approx a) => Approx (U.Vector a) where 
-  x =~ y = (U.length x==U.length y) && U.foldr (&&) True (U.zipWith (=~) x y)
+  x =~ y = (U.length x == U.length y) && U.and (U.zipWith (=~) x y)
 
 instance (Approx a) => Approx (V.Vector a) where 
-  x =~ y = (V.length x==V.length y) && V.foldr (&&) True (V.zipWith (=~) x y)
+  x =~ y = (V.length x == V.length y) && V.and (V.zipWith (=~) x y)
 
 instance (Eq a, Hashable a, Approx b) => Approx (Hm.HashMap a b) where
   x =~ y = fz x y && fz y x where
-    fz p q = foldl' (f p) True $ Hm.toList q
-    f p t z = t && (Hm.lookup k p =~ Just v) where (k,v) = z 
+    fz p q = and $ (\(k,v) -> Hm.lookup k p =~ Just v) <$> Hm.toList q
+
+
+{-|@inRange (u,v) x = check if x is inside the range (u,v)@
+
+Note: The function __assumes @u < v@__. This is done to ensure speed of operations. Use safeInRange, otherwise. 
+-}
+inRange :: Ord a => (a,a) -> a -> Bool
+inRange (u,v) x = (u <= x) && (x <= v)
+
+{-|@safeInRange (u,v) x = check if x is inside the range (u,v)@
+
+Note: The function works even if u>v. However, it has addtional checks and is more expensive. Use only if you are not sure that u < v for your use-case.  
+-}
+safeInRange :: Ord a => (a,a) -> a -> Bool
+safeInRange (u,v) = inRange $ if u<v then (u,v) else (v,u)
+
+{-|@inTol t a x = inRange (a - t, a + t) x@
+
+The Function checks if x is close to a within a tolerance band __t__. Please ensure __t__ is /positive/ or there would be /incorrect/ results.
+-}
+inTol :: (Num a, Ord a) => a -> a -> a -> Bool 
+inTol t a = inRange (a - t, a + t)
+

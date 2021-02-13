@@ -43,9 +43,12 @@ For UTCTime, the approx operator checks for equality to the nearest minute. The 
     =~ parseTimeM True defaultTimeLocale "%Y-%m-%d %H:%M:%S" "2020-01-15 15:01:50"
 ```
 
+
 The library also provides approx for Complex and common structures like list, boxed and unboxed vector, hashmap, tuples and Maybe. For all lists, tuples, hashmaps and vectors, the approximation is checked right down to the elements and the order for lists and vectors are important. 
 
 For lists, only finite lists are supported. Any use of infinite lists would cause a runtime error. 
+
+There are addtional functions **inRange**, **safeInRange** and **inTol**, which checks for values within Ranges either *explictily* defined as in **inRange** and **safeInRange** or through tolerances as in **inTol**.
 
 ## Code examples
 The following all expressions evaluate as True
