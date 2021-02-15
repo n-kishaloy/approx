@@ -270,6 +270,7 @@ instance (Eq a, Hashable a, Approx b) => Approx (Hm.HashMap a b) where
   x =~ y = fz x y && fz y x where
     fz p q = and $ (\(k,v) -> Hm.lookup k p =~ Just v) <$> Hm.toList q
 
+infix 4 `inRange`, `safeInRange`, `inTol`
 
 {-|@inRange (u,v) x = check if x is inside the range (u,v)@
 
@@ -277,6 +278,7 @@ Note: The function __assumes @u < v@__. This is done to ensure speed of operatio
 -}
 inRange :: Ord a => (a,a) -> a -> Bool
 inRange (u,v) x = (u <= x) && (x <= v)
+{-# INLINE inRange #-}
 
 {-|@safeInRange (u,v) x = check if x is inside the range (u,v)@
 
@@ -284,11 +286,12 @@ Note: The function works even if u>v. However, it has addtional checks and is mo
 -}
 safeInRange :: Ord a => (a,a) -> a -> Bool
 safeInRange (u,v) = inRange $ if u<v then (u,v) else (v,u)
+{-# INLINE safeInRange #-}
 
-{-|@inTol t a x = inRange (a - t, a + t) x@
+{-|@inTol t p x = inRange (p - t, p + t) x@
 
-The Function checks if x is close to a within a tolerance band __t__. Please ensure __t__ is /positive/ or there would be /incorrect/ results.
+The Function checks if __@x@__ is close to __@p@__ within a tolerance band __@t@__. Please ensure __@t@__ is /positive/ or there would be /incorrect/ results.
 -}
 inTol :: (Num a, Ord a) => a -> a -> a -> Bool 
 inTol t a = inRange (a - t, a + t)
-
+{-# INLINE inTol #-}

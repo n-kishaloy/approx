@@ -129,3 +129,18 @@ main = do
   quickCheck $ rb /~ tb
 
   quickCheck $ U.fromList ([2.5, 1.5, 3.56] :: [Double]) =~ U.fromList [2.500000001, 1.5, 3.56]
+
+  quickCheck $ (2,4) `inRange` (3::Int) 
+  quickCheck $ not $ (2,4) `inRange` (5::Int) 
+
+  quickCheck $ (2.5, 2.75) `inRange` (2.62::Double)
+  quickCheck $ not $ (2.5, 2.75) `inRange` (2.8::Double)
+
+  quickCheck $ (4,2) `safeInRange` (3::Int) 
+  quickCheck $ not $ (2,4) `safeInRange` (5::Int) 
+
+  quickCheck $ (2.5, 2.75) `safeInRange` (2.62::Double)
+  quickCheck $ not $ (2.75, 2.5) `safeInRange` (2.8::Double)
+
+  quickCheck $ inTol 0.25 6.25 (6.1::Double) 
+  quickCheck $ not $ inTol 0.125 6.25 (6.1::Double) 

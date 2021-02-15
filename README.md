@@ -27,6 +27,7 @@ else
 ```
 
 The motivation for defining Approx for classes for which Eq is also defined is to allow for composite types where both Eq and Approx would be present. For example, the following code evaluates to True, even though the tuple is of type **```(Int,Double,Text,[Int],[[Char]],[Double])```**.
+
 ```
 ((2,5.35,"happ",[1,2],["ret","we"],[6.78,3.5]) 
     :: (Int,Double,Text,[Int],[[Char]],[Double])) 
@@ -70,7 +71,7 @@ Just (10 :: Double) /~ Just 1.0
 
 
 ## Installation
-Add the library in build-depends and import Data.Approx. 
+Add the library in build-depends and ```import Data.Approx```. 
 
 ## Author(s)
 Kishaloy Neogi
@@ -78,7 +79,7 @@ Kishaloy Neogi
 ## License
 The library is distributed under the MIT License.
 
-Copyright (c) 2020 Kishaloy Neogi
+Copyright (c) 2021 Kishaloy Neogi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
